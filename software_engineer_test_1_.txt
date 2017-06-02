@@ -1,0 +1,312 @@
+Basic Rules
+===========
+1. Review the questions in this file. Reply back via email with an estimated
+   delivery date.
+2. Answer each of the questions below.
+3. Add your answer to each question to this file, in-line.
+4. Send the final file back for review.
+5. Bonus points if you add this initial file to your public git repo and share
+   that repo with us so we can see how your answers progressed.
+6. You may use external sources to help answer the questions (i.e. Google, etc),
+   but you should always cite your sources in your comments. Learning from
+   others is good. Plagiarism is bad.
+
+
+Developer Test
+==============
+
+1.  What editor will you use to edit this file, and why?
+
+	I use Notepad++ as it has support to many languages and different encodings. The other advantage of using it is, even if the file is not saved I can get the file back.
+	To run and test the programs, I have used Eclipse, XAMPP, MySQL, Python.
+
+2.  Some of the questions will ask for a solution in the language of
+    your choice.  What language(s) will you choose, and why?
+	
+	I prefer to use java or python as they have very rich libraries. By using these languages, programs can be run on any platform and language diversity of java(Compatibility with other languages) is a big plus.
+	
+3.  Explain the difference between testing and debugging.
+	
+	Testing is the process used to run the application or program and find out the defects in it. 
+	Debugging is the process carried out after testing to find the cause of the defect and fix it.
+	
+4.  Consider a user querying a search engine.  Describe, in as much
+    detail as you like, what happens between the user clicking the
+    "submit" button and the display of the results.
+	
+	Once a user query a search engine, the request will hit the web server using GET or POST method. The query will be divided into sub parts and the crawler
+	will reach out all the interconnected pages/documents in world wide web to find a match. Once the matched sites are found, the crawler returns all the sites information to the server.
+	The server will sort the order by their relevance and popularity. Different search engines uses different algorithms to find out the relevance and popularity.
+	
+
+The two tables below describe relationships between employees,
+managers, and departments (the columns employee.mgr_id and
+department.head both refer to employee.id).  Use these definitions to
+answer questions 5-10.  If you need to use any nonstandard functions or
+syntax, be sure to name the DBMS that implements them.
+
+employee                              department
+----------------------------------    -----------------------
+ id |        name        | mgr_id           name      | head
+----+--------------------+--------    ----------------+------
+  1 | Jonathan Archer    |     11      Operations     |   11
+  2 | Christopher Pike   |     12      Marketing      |   12
+  3 | James Kirk         |     13      IT             |   13
+  4 | Jean-Luc Picard    |     14      HR             |   14
+  5 | Kathryn Janeway    |     15      Sales          |   15
+  6 | Ralph Wiggum       |     11
+  7 | Troy McClure       |     12
+  8 | Waylon Smithers    |     17
+  9 | Edna Krabappel     |     16
+ 10 | Ned Flanders       |     15
+ 11 | Buffy Summers      |
+ 12 | Xander Harris      |
+ 13 | Willow Rosenberg   |
+ 14 | Rupert Giles       |
+ 15 | Oz Selbie          |
+ 16 | Dade Murphy        |     11
+ 17 | Kate Libby         |     13
+ 18 | Paul Cook          |     17
+ 19 | Emmanuel Goldstein |     16
+ 20 | Winston Smith      |     15
+ 21 | Thomas Anderson    |     15
+ 22 | Agent Smith        |     14
+ 23 | Malcolm Reynolds   |     14
+ 24 | River Tam          |     18
+ 25 | Jason Nesmith      |     18
+
+5.  Write an SQL query to list the full name of every employee,
+    alphabetized by first name.
+	
+	SELECT e.name FROM employee e order by SUBSTRING_INDEX((e.name)," ",1)
+	
+6.  Write an SQL query to list the full name of every employee,
+    alphabetized by last name.
+	
+	SELECT e.name FROM employee e order by SUBSTRING_INDEX((e.name)," ",-1)
+	
+7.  Write an SQL query to list the full name of every employee along
+    with the full name of his/her manager.
+	
+	SELECT e1.name as 'name',e.name as 'manager' FROM employee e, employee e1 WHERE e1.mgr_id=e.id;
+	
+8.  Write an SQL query to list the full name of every employee in the
+    Sales department.
+	
+	SELECT e.name FROM employee e where e.mgr_id IN (SELECT head from department where name='Operations') or e.id in (SELECT head from department where name='Operations')
+
+	
+9.  Write an SQL query to list the full name of every employee along
+    with name of his/her department.
+	
+	SELECT e.name, d.name FROM employee e, department d where e.mgr_id= d.head or e.id=d.head
+	
+10. Is there a better design for a database that supports the queries
+    described in questions 5-9?  If so, describe it.  If not, why not?
+	
+	By assuming the normalization methods, the tables are well defined. Usage of primary keys, table relationships helps the database design to perform 
+	accordingly without redundancy and access in information from different tables by joining. Only challenge here is usage of indexes. As the tables are small,
+	the query time is not long. If the table size increases, there is a need of index to query the results quick.
+	
+11. Write a function in the language of your choice that implements
+    quicksort on an array of integers.
+	
+	import java.util.Arrays;
+	import java.util.Scanner;
+
+public class QuickSort {
+	public static void main(String[] args) {
+		System.out.println("Enter size of the array");
+		Scanner s = new Scanner(System.in);
+		int[] x = new int[s.nextInt()];
+		System.out.println("Enter elements into array");
+		
+		for(int i=0;i<x.length;i++)
+		{
+			x[i] = s.nextInt();
+		}
+		System.out.println("Unsorted Array: "+Arrays.toString(x));
+ 
+		int low = 0;
+		int high = x.length - 1;
+ 
+		quickSort(x, low, high);
+		System.out.println("After Quick Sort: "+Arrays.toString(x));
+	}
+ 
+	public static void quickSort(int[] arr, int low, int high) {
+		if (arr == null || arr.length == 0)
+			return;
+ 
+		if (low >= high)
+			return;
+ 
+		// pick the pivot
+		int middle = low + (high - low) / 2;
+		int pivot = arr[middle];
+ 
+		// make left < pivot and right > pivot
+		int i = low, j = high;
+		while (i <= j) {
+			while (arr[i] < pivot) {
+				i++;
+			}
+ 
+			while (arr[j] > pivot) {
+				j--;
+			}
+ 
+			if (i <= j) {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				i++;
+				j--;
+			}
+		}
+ 
+		// recursively sort two sub parts
+		if (low < j)
+			quickSort(arr, low, j);
+ 
+		if (high > i)
+			quickSort(arr, i, high);
+	}
+}
+
+	
+12. Write a function in the language of your choice that performs
+    binary search on a sorted array of integers.
+	
+	import java.util.Scanner;
+
+	public class BinarySearch {
+	static int[] data = {6,7,10,23,64};
+	    static int size;
+	    public static void main(String args[]){
+	    	System.out.println("Enter the element to search");
+	    	Scanner sc = new Scanner(System.in);
+	    	int x = sc.nextInt();
+	    	binarySearch(x);
+	    }
+	
+	    public static void binarySearch(int key) 
+	    {
+	         int low = 0;
+	         int high = data.length - 1;
+	          
+	         while(high >= low) {
+	             int middle = (low + high) / 2;
+	             if(data[middle] == key) {
+	                 System.out.println("Element Found at "+(middle+1)+" position");
+	                 System.exit(0);
+	             }
+	             else if(data[middle] < key) {
+	                 low = middle + 1;
+	             }
+	             else if(data[middle] > key) {
+	                high = middle - 1;
+	             }
+	        }
+	         System.out.println("Element not found"); 
+	   }
+
+}
+
+	
+13. Write a function in the language of your choice that performs the query
+    you wrote for question 7, and outputs the results as an HTML table.
+	
+	<?php
+
+	$connection = mysql_connect('localhost', 'root', 'root');
+	mysql_select_db('sample');
+
+	$query = "SELECT e1.name,e.name FROM employee e, employee e1 WHERE e1.mgr_id=e.id"; 
+	$result = mysql_query($query);
+
+	echo "<table>";
+
+	if (mysqli_num_rows($result) > 0){
+		while($row = mysql_fetch_array($result)){ 
+		echo "<tr><td>" . $row['e1.name'] . "</td><td>" . $row['e.name'] . "</td></tr>";
+		}
+		echo "</table>";
+	}
+
+	else{
+		echo "0 results";
+	}
+		mysql_close();
+	?>
+	
+14. Write a program in the language of your choice that takes a filename
+    and a number N as arguments and retrieves and outputs the Nth line
+    from the file.
+	
+	package fileRead;
+
+	import java.io.IOException;
+	import java.nio.file.Files;
+	import java.nio.file.Paths;
+	import java.util.Scanner;
+
+	public class fileRead {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Enter the filename");
+		Scanner sc = new Scanner(System.in);
+		String filename = sc.nextLine();
+		System.out.println("Enter the line number");
+		int lnum = sc.nextInt();
+		printFileData(filename,lnum-1);
+	}
+	
+	public static void printFileData(String filename, int lnum)
+	{
+	try {
+		String str = Files.readAllLines(Paths.get(filename)).get(lnum);
+		System.out.println("Content in file at line "+lnum+" is "+str);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+	}
+	
+	
+15. Write the function from question 12 in a different language.
+
+(Python program to binary search)
+
+def binary_search(arr, ele):
+    lower = 0
+    upper = len(arr)
+    while lower < upper:   
+        x = lower + (upper - lower)
+        val = arr[x]
+        if ele == val:
+            print "Element found at" x+1 "Position in the array"
+        elif ele > val:
+            if lower == x:   
+                break        
+            lower = x
+        elif ele < val:
+            upper = x
+			
+
+16. Write the program from question 14 in a different language (it can
+    be the same language you used for #15, but it doesn't have to be).
+	
+	def readlinefromFile(file,x):
+    for index,line in enumerate(iter(file)):
+        if index+1 == x: 
+			return line
+
+    return notfound
+
+	f = open('new.txt')
+	x = 3
+	line_num = readlinefromFile(f,x)
+	print "Sentence at line" x "is" line_num
